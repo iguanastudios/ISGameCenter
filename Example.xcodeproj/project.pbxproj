@@ -18,6 +18,8 @@
 		A0A578FF18E73E2D00ADDCAB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0A578FE18E73E2D00ADDCAB /* ViewController.m */; };
 		A0A5790218E73E2D00ADDCAB /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = A0A5790118E73E2D00ADDCAB /* MyScene.m */; };
 		A0A5790618E73E2D00ADDCAB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0A5790518E73E2D00ADDCAB /* Images.xcassets */; };
+		A0A5792718E7403400ADDCAB /* ISGameCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = A0A5792418E7403400ADDCAB /* ISGameCenter.m */; };
+		A0A5792818E7403400ADDCAB /* ISMultiplayerNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A0A5792618E7403400ADDCAB /* ISMultiplayerNetworking.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,9 +41,10 @@
 		A0A5790118E73E2D00ADDCAB /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
 		A0A5790518E73E2D00ADDCAB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A0A5790C18E73E2E00ADDCAB /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		A0A5791418E73E2E00ADDCAB /* ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleTests-Info.plist"; sourceTree = "<group>"; };
-		A0A5791618E73E2E00ADDCAB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		A0A5791818E73E2E00ADDCAB /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
+		A0A5792318E7403400ADDCAB /* ISGameCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISGameCenter.h; sourceTree = "<group>"; };
+		A0A5792418E7403400ADDCAB /* ISGameCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISGameCenter.m; sourceTree = "<group>"; };
+		A0A5792518E7403400ADDCAB /* ISMultiplayerNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISMultiplayerNetworking.h; sourceTree = "<group>"; };
+		A0A5792618E7403400ADDCAB /* ISMultiplayerNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISMultiplayerNetworking.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,8 +65,8 @@
 		A0A578DA18E73E2D00ADDCAB = {
 			isa = PBXGroup;
 			children = (
+				A0A5792218E73FF300ADDCAB /* ISGameCenter */,
 				A0A578EE18E73E2D00ADDCAB /* Example */,
-				A0A5791218E73E2E00ADDCAB /* ExampleTests */,
 				A0A578E518E73E2D00ADDCAB /* Frameworks */,
 				A0A578E418E73E2D00ADDCAB /* Products */,
 			);
@@ -116,22 +119,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A0A5791218E73E2E00ADDCAB /* ExampleTests */ = {
+		A0A5792218E73FF300ADDCAB /* ISGameCenter */ = {
 			isa = PBXGroup;
 			children = (
-				A0A5791818E73E2E00ADDCAB /* ExampleTests.m */,
-				A0A5791318E73E2E00ADDCAB /* Supporting Files */,
+				A0A5792318E7403400ADDCAB /* ISGameCenter.h */,
+				A0A5792418E7403400ADDCAB /* ISGameCenter.m */,
+				A0A5792518E7403400ADDCAB /* ISMultiplayerNetworking.h */,
+				A0A5792618E7403400ADDCAB /* ISMultiplayerNetworking.m */,
 			);
-			path = ExampleTests;
-			sourceTree = "<group>";
-		};
-		A0A5791318E73E2E00ADDCAB /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A0A5791418E73E2E00ADDCAB /* ExampleTests-Info.plist */,
-				A0A5791518E73E2E00ADDCAB /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
+			path = ISGameCenter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,7 +195,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0A5792818E7403400ADDCAB /* ISMultiplayerNetworking.m in Sources */,
 				A0A5790218E73E2D00ADDCAB /* MyScene.m in Sources */,
+				A0A5792718E7403400ADDCAB /* ISGameCenter.m in Sources */,
 				A0A578FF18E73E2D00ADDCAB /* ViewController.m in Sources */,
 				A0A578F918E73E2D00ADDCAB /* AppDelegate.m in Sources */,
 				A0A578F518E73E2D00ADDCAB /* main.m in Sources */,
@@ -223,14 +221,6 @@
 				A0A578FB18E73E2D00ADDCAB /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A0A5791518E73E2E00ADDCAB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A0A5791618E73E2E00ADDCAB /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
