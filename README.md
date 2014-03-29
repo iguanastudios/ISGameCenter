@@ -1,5 +1,8 @@
 ISGameCenter ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
 ============
+[![Badge w/ Version](https://cocoapod-badges.herokuapp.com/v/ISSpriteKit/badge.png)](http://cocoadocs.org/docsets/ISGameCenter)
+[![Badge w/ Platform](https://cocoapod-badges.herokuapp.com/p/ISSpriteKit/badge.svg)](http://cocoadocs.org/docsets/ISGameCenter)
+
 
 iOS Game Center helpers and utilities.
 
