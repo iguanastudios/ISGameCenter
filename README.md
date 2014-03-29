@@ -24,7 +24,8 @@ ISMultiplayerNetworking helps to manage multiplayer sessions. It contains a simp
 
 ## TODO
 
-* Example, It will be implemented in the next few days.
+* Example will be implemented in the next few days.
+* Add flexibility to ISMultiplayerNetworking messages (Sending a dictionary at a high frecuency could lead to latency problems, use the smallest possible format).
 
 ## Licence
 
