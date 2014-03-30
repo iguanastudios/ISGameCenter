@@ -15,14 +15,12 @@
 - (void)multiplayerMatchStarted;
 - (void)multiplayerMatchEnded;
 - (void)playerIndex:(NSUInteger)index;
-- (void)movePlayer:(CGFloat)dx dy:(CGFloat)dy;
 @end
 
 @interface ISMultiplayerNetworking : NSObject<ISGameCenterNetworkingDelegate>
 
 @property (nonatomic, assign) id<ISMultiplayerDelegate> delegate;
 
-- (void)sendMove:(float)dx dy:(float)dy;
 - (void)sendGameOverMessage;
 - (void)sendData:(NSData*)data;
 

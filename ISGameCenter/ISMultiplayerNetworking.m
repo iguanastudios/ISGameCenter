@@ -9,10 +9,9 @@
 #import "ISMultiplayerNetworking.h"
 
 typedef NS_ENUM(int, ISMessageType) {
-    ISMessageTypeGamePrepare,
-    ISMessageTypeGameBegin,
-    ISMessageTypeMove,
-    ISMessageTypeGameOver
+    ISMessageTypeGamePrepare = 0,
+    ISMessageTypeGameBegin   = 1,
+    ISMessageTypeGameOver    = 2
 };
 
 typedef struct {
@@ -26,11 +25,6 @@ typedef struct {
 typedef struct {
     ISMessage message;
 } ISMessageGameBegin;
-
-typedef struct {
-    ISMessage message;
-    float dx, dy;
-} ISMessageMove;
 
 typedef struct {
     ISMessage message;
@@ -80,10 +74,6 @@ typedef struct {
             }
             break;
 
-        case ISMessageTypeMove:
-            [self move:data];
-            break;
-
         case ISMessageTypeGameOver:
             [self matchEnded];
             break;
@@ -121,15 +111,6 @@ typedef struct {
     [self sendData:data];
 }
 
-- (void)sendMove:(float)dx dy:(float)dy {
-    ISMessageMove messageMove;
-    messageMove.dx = dx;
-    messageMove.dy = dy;
-    messageMove.message.messageType = ISMessageTypeMove;
-    NSData *data = [NSData dataWithBytes:&messageMove length:sizeof(ISMessageMove)];
-    [self sendData:data];
-}
-
 - (void)sendGameOverMessage {
     ISMessageGameOver gameOverMessage;
     gameOverMessage.message.messageType = ISMessageTypeGameOver;
@@ -162,13 +143,6 @@ typedef struct {
                 [self.delegate multiplayerMatchStarted];
             }
         }
-    }
-}
-
-- (void)move:(NSData *)data {
-    ISMessageMove *messageMove = (ISMessageMove*)[data bytes];
-    if ([self.delegate respondsToSelector:@selector(movePlayer:dy:)]) {
-        [self.delegate movePlayer:messageMove->dx dy:messageMove->dy];
     }
 }
 
