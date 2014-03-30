@@ -1,5 +1,8 @@
 ISGameCenter ![License MIT](https://go-shields.herokuapp.com/license-MIT-blue.png)
 ============
+[![Badge w/ Version](https://cocoapod-badges.herokuapp.com/v/ISGameCenter/badge.png)](http://cocoadocs.org/docsets/ISGameCenter)
+[![Badge w/ Platform](https://cocoapod-badges.herokuapp.com/p/ISGameCenter/badge.svg)](http://cocoadocs.org/docsets/ISGameCenter)
+
 
 iOS Game Center helpers and utilities.
 
@@ -21,7 +24,8 @@ ISMultiplayerNetworking helps to manage multiplayer sessions. It contains a simp
 
 ## TODO
 
-* Example, It will be implemented in the next few days.
+* Example will be implemented in the next few days.
+* Add flexibility to ISMultiplayerNetworking messages (Sending a dictionary at a high frecuency could lead to latency problems, use the smallest possible format).
 
 ## Licence
 
