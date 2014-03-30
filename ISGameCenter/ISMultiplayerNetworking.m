@@ -155,6 +155,13 @@ typedef struct {
         if ([self.delegate respondsToSelector:@selector(playerIndex:)]) {
             [self.delegate playerIndex:index];
         }
+
+        if (index == 0) {
+            [self sendBeginGame];
+            if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
+                [self.delegate multiplayerMatchStarted];
+            }
+        }
     }
 }
 

@@ -12,8 +12,8 @@
 
 @protocol ISMultiplayerDelegate <NSObject>
 @optional
-- (void)multiplayerMatchEnded;
 - (void)multiplayerMatchStarted;
+- (void)multiplayerMatchEnded;
 - (void)playerIndex:(NSUInteger)index;
 - (void)movePlayer:(CGFloat)dx dy:(CGFloat)dy;
 @end
@@ -24,5 +24,6 @@
 
 - (void)sendMove:(float)dx dy:(float)dy;
 - (void)sendGameOverMessage;
+- (void)sendData:(NSData*)data;
 
 @end
