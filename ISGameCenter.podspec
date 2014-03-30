@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = 'ISGameCenter'
-  spec.version      = '0.1.0'
+  spec.version      = '0.1.1'
   spec.license      = 'MIT'
   spec.summary      = 'iOS Game Center helpers and utilities.'
   spec.homepage     = 'https://github.com/iguanastudios/ISGameCenter'
