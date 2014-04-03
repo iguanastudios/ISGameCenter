@@ -88,19 +88,21 @@ typedef struct {
             return [id1 caseInsensitiveCompare:id2];
         }];
 
-        NSUInteger index = [self.players indexOfObject:localPlayerId];
-
         // Local player is hoster
-        if (index == 0) {
+        if ([self.players indexOfObject:localPlayerId] == 0) {
             [self sendBeginGame];
-            if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
-                [self.delegate multiplayerMatchStarted];
-            }
+            [self multiplayerMatchStarted:YES];
         }
+    }
+}
 
-        if ([self.delegate respondsToSelector:@selector(playerIndex:)]) {
-            [self.delegate playerIndex:index];
-        }
+- (void)multiplayerMatchStarted:(BOOL)hoster {
+    if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
+        [self.delegate multiplayerMatchStarted];
+    }
+
+    if ([self.delegate respondsToSelector:@selector(playerIsHoster:)]) {
+        [self.delegate playerIsHoster:hoster];
     }
 }
 
@@ -128,9 +130,7 @@ typedef struct {
             break;
 
         case ISMessageTypeGameBegin:
-            if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
-                [self.delegate multiplayerMatchStarted];
-            }
+            [self multiplayerMatchStarted:NO];
             break;
 
         case ISMessageTypeGameOver:

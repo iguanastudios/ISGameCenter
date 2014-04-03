@@ -14,7 +14,7 @@
 - (void)multiplayerMatchStarted;
 - (void)multiplayerMatchEnded;
 @optional
-- (void)playerIndex:(NSUInteger)index;
+- (void)playerIsHoster:(BOOL)hoster;
 @end
 
 @interface ISMultiplayerNetworking : NSObject<ISGameCenterNetworkingDelegate>
