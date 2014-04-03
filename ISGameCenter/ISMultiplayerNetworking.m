@@ -18,18 +18,6 @@ typedef struct {
     ISMessageType messageType;
 } ISMessage;
 
-typedef struct {
-    ISMessage message;
-} ISMessageGamePrepare;
-
-typedef struct {
-    ISMessage message;
-} ISMessageGameBegin;
-
-typedef struct {
-    ISMessage message;
-} ISMessageGameOver;
-
 @interface ISMultiplayerNetworking ()
 @property (strong, nonatomic) NSMutableArray *players;
 @end
@@ -43,6 +31,77 @@ typedef struct {
         self.players = [NSMutableArray array];
     }
     return self;
+}
+
+#pragma mark - Public methods
+
+- (void)sendGameOverMessage {
+    [self sendMessageType:ISMessageTypeGameOver];
+}
+
+- (void)sendReliableData:(NSData*)data {
+    [self sendData:data withDataMode:GKMatchSendDataReliable];
+}
+
+- (void)sendUnreliableData:(NSData*)data {
+    [self sendData:data withDataMode:GKMatchSendDataUnreliable];
+}
+
+- (void)sendData:(NSData *)data withDataMode:(GKMatchSendDataMode)mode {
+    NSError *error;
+    ISGameCenter *gameKitHelper = [ISGameCenter sharedISGameCenter];
+    BOOL success = [gameKitHelper.multiplayerMatch sendDataToAllPlayers:data
+                                                           withDataMode:mode
+                                                                  error:&error];
+    if (!success) {
+        NSLog(@"Error sending data: %@", error);
+        [self matchEnded];
+    }
+}
+
+#pragma mark - Private methods
+
+- (void)sendPrepareGame {
+    [self sendMessageType:ISMessageTypeGamePrepare];
+}
+
+- (void)sendBeginGame {
+    [self sendMessageType:ISMessageTypeGameBegin];
+}
+
+- (void)sendMessageType:(ISMessageType)messageType {
+    ISMessage message;
+    message.messageType = messageType;
+    NSData *data = [NSData dataWithBytes:&message length:sizeof(ISMessage)];
+    [self sendReliableData:data];
+}
+
+- (void)prepareGame:(NSString *)playerId {
+    [self.players addObject:playerId];
+
+    GKMatch *multiplayerMatch = [ISGameCenter sharedISGameCenter].multiplayerMatch;
+    if ([self.players count] == [multiplayerMatch.playerIDs count]) {
+        NSString *localPlayerId = [GKLocalPlayer localPlayer].playerID;
+        [self.players addObject:localPlayerId];
+
+        [self.players sortUsingComparator:^ NSComparisonResult(NSString *id1, NSString *id2) {
+            return [id1 caseInsensitiveCompare:id2];
+        }];
+
+        NSUInteger index = [self.players indexOfObject:localPlayerId];
+
+        // Local player is hoster
+        if (index == 0) {
+            [self sendBeginGame];
+            if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
+                [self.delegate multiplayerMatchStarted];
+            }
+        }
+
+        if ([self.delegate respondsToSelector:@selector(playerIndex:)]) {
+            [self.delegate playerIndex:index];
+        }
+    }
 }
 
 #pragma mark ISGameCenterNetworkingDelegate
@@ -77,85 +136,9 @@ typedef struct {
         case ISMessageTypeGameOver:
             [self matchEnded];
             break;
-
+            
         default:
             break;
-    }
-}
-
-#pragma mark - Send data
-
-- (void)sendReliableData:(NSData*)data {
-    NSError *error;
-    ISGameCenter *gameKitHelper = [ISGameCenter sharedISGameCenter];
-    BOOL success = [gameKitHelper.multiplayerMatch sendDataToAllPlayers:data
-                                                           withDataMode:GKMatchSendDataReliable
-                                                                  error:&error];
-    if (!success) {
-        NSLog(@"Error sending data: %@", error);
-        [self matchEnded];
-    }
-}
-
-- (void)sendUnreliableData:(NSData*)data {
-    NSError *error;
-    ISGameCenter *gameKitHelper = [ISGameCenter sharedISGameCenter];
-    BOOL success = [gameKitHelper.multiplayerMatch sendDataToAllPlayers:data
-                                                           withDataMode:GKMatchSendDataUnreliable
-                                                                  error:&error];
-    if (!success) {
-        NSLog(@"Error sending data: %@", error);
-        [self matchEnded];
-    }
-}
-
-- (void)sendPrepareGame {
-    ISMessageGameBegin message;
-    message.message.messageType = ISMessageTypeGamePrepare;
-    NSData *data = [NSData dataWithBytes:&message length:sizeof(ISMessageGamePrepare)];
-    [self sendReliableData:data];
-}
-
-- (void)sendBeginGame {
-    ISMessageGameBegin message;
-    message.message.messageType = ISMessageTypeGameBegin;
-    NSData *data = [NSData dataWithBytes:&message length:sizeof(ISMessageGameBegin)];
-    [self sendReliableData:data];
-}
-
-- (void)sendGameOverMessage {
-    ISMessageGameOver gameOverMessage;
-    gameOverMessage.message.messageType = ISMessageTypeGameOver;
-    NSData *data = [NSData dataWithBytes:&gameOverMessage length:sizeof(ISMessageGameOver)];
-    [self sendReliableData:data];
-}
-
-#pragma mark - Private methods
-
-- (void)prepareGame:(NSString *)playerId {
-    [self.players addObject:playerId];
-
-    GKMatch *multiplayerMatch = [ISGameCenter sharedISGameCenter].multiplayerMatch;
-    if ([self.players count] == [multiplayerMatch.playerIDs count]) {
-        NSString *localPlayerId = [GKLocalPlayer localPlayer].playerID;
-        [self.players addObject:localPlayerId];
-
-        [self.players sortUsingComparator:^NSComparisonResult(NSString *id1, NSString *id2) {
-            return [id1 caseInsensitiveCompare:id2];
-        }];
-
-        NSUInteger index = [self.players indexOfObject:localPlayerId];
-        // Local player is hoster
-        if (index == 0) {
-            [self sendBeginGame];
-            if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
-                [self.delegate multiplayerMatchStarted];
-            }
-        }
-
-        if ([self.delegate respondsToSelector:@selector(playerIndex:)]) {
-            [self.delegate playerIndex:index];
-        }
     }
 }
 

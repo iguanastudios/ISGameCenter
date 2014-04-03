@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "ISGameCenter.h"
-#import "ISMultiplayerNetworking.h"
 
 @protocol ISMultiplayerDelegate <NSObject>
-@optional
+@required
 - (void)multiplayerMatchStarted;
 - (void)multiplayerMatchEnded;
+@optional
 - (void)playerIndex:(NSUInteger)index;
 @end
 
