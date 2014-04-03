@@ -22,6 +22,7 @@
 @property (nonatomic, assign) id<ISMultiplayerDelegate> delegate;
 
 - (void)sendGameOverMessage;
-- (void)sendData:(NSData*)data;
+- (void)sendReliableData:(NSData*)data;
+- (void)sendUnreliableData:(NSData*)data;
 
 @end

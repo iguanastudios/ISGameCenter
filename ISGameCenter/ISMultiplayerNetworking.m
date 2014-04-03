@@ -85,7 +85,7 @@ typedef struct {
 
 #pragma mark - Send data
 
-- (void)sendData:(NSData*)data {
+- (void)sendReliableData:(NSData*)data {
     NSError *error;
     ISGameCenter *gameKitHelper = [ISGameCenter sharedISGameCenter];
     BOOL success = [gameKitHelper.multiplayerMatch sendDataToAllPlayers:data
@@ -97,25 +97,37 @@ typedef struct {
     }
 }
 
+- (void)sendUnreliableData:(NSData*)data {
+    NSError *error;
+    ISGameCenter *gameKitHelper = [ISGameCenter sharedISGameCenter];
+    BOOL success = [gameKitHelper.multiplayerMatch sendDataToAllPlayers:data
+                                                           withDataMode:GKMatchSendDataUnreliable
+                                                                  error:&error];
+    if (!success) {
+        NSLog(@"Error sending data: %@", error);
+        [self matchEnded];
+    }
+}
+
 - (void)sendPrepareGame {
     ISMessageGameBegin message;
     message.message.messageType = ISMessageTypeGamePrepare;
     NSData *data = [NSData dataWithBytes:&message length:sizeof(ISMessageGamePrepare)];
-    [self sendData:data];
+    [self sendReliableData:data];
 }
 
 - (void)sendBeginGame {
     ISMessageGameBegin message;
     message.message.messageType = ISMessageTypeGameBegin;
     NSData *data = [NSData dataWithBytes:&message length:sizeof(ISMessageGameBegin)];
-    [self sendData:data];
+    [self sendReliableData:data];
 }
 
 - (void)sendGameOverMessage {
     ISMessageGameOver gameOverMessage;
     gameOverMessage.message.messageType = ISMessageTypeGameOver;
     NSData *data = [NSData dataWithBytes:&gameOverMessage length:sizeof(ISMessageGameOver)];
-    [self sendData:data];
+    [self sendReliableData:data];
 }
 
 #pragma mark - Private methods
@@ -133,15 +145,16 @@ typedef struct {
         }];
 
         NSUInteger index = [self.players indexOfObject:localPlayerId];
-        if ([self.delegate respondsToSelector:@selector(playerIndex:)]) {
-            [self.delegate playerIndex:index];
-        }
-
+        // Local player is hoster
         if (index == 0) {
             [self sendBeginGame];
             if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
                 [self.delegate multiplayerMatchStarted];
             }
+        }
+
+        if ([self.delegate respondsToSelector:@selector(playerIndex:)]) {
+            [self.delegate playerIndex:index];
         }
     }
 }
