@@ -180,6 +180,7 @@
             }
             break;
         case GKPlayerStateDisconnected:
+        default:
             NSLog(@"Player disconnected");
             self.multiplayerMatchStarted = NO;
             [self.networkingDelegate matchEnded];

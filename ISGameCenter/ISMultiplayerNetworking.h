@@ -11,10 +11,8 @@
 
 @protocol ISMultiplayerDelegate <NSObject>
 @required
-- (void)multiplayerMatchStarted;
+- (void)multiplayerMatchStarted:(BOOL)hoster;
 - (void)multiplayerMatchEnded;
-@optional
-- (void)playerIsHoster:(BOOL)hoster;
 @end
 
 @interface ISMultiplayerNetworking : NSObject<ISGameCenterNetworkingDelegate>

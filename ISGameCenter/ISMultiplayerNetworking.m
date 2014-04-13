@@ -91,18 +91,8 @@ typedef struct {
         // Local player is hoster
         if ([self.players indexOfObject:localPlayerId] == 0) {
             [self sendBeginGame];
-            [self multiplayerMatchStarted:YES];
+            [self.delegate multiplayerMatchStarted:YES];
         }
-    }
-}
-
-- (void)multiplayerMatchStarted:(BOOL)hoster {
-    if ([self.delegate respondsToSelector:@selector(multiplayerMatchStarted)]) {
-        [self.delegate multiplayerMatchStarted];
-    }
-
-    if ([self.delegate respondsToSelector:@selector(playerIsHoster:)]) {
-        [self.delegate playerIsHoster:hoster];
     }
 }
 
@@ -116,9 +106,7 @@ typedef struct {
 - (void)matchEnded {
     NSLog(@"Multiplayer match has ended");
     [[ISGameCenter sharedISGameCenter].multiplayerMatch disconnect];
-    if ([self.delegate respondsToSelector:@selector(multiplayerMatchEnded)]) {
-        [self.delegate multiplayerMatchEnded];
-    }
+    [self.delegate multiplayerMatchEnded];
 }
 
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerId {
@@ -130,14 +118,12 @@ typedef struct {
             break;
 
         case ISMessageTypeGameBegin:
-            [self multiplayerMatchStarted:NO];
+            [self.delegate multiplayerMatchStarted:NO];
             break;
 
         case ISMessageTypeGameOver:
-            [self matchEnded];
-            break;
-            
         default:
+            [self matchEnded];
             break;
     }
 }
