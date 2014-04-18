@@ -10,4 +10,5 @@ Pod::Spec.new do |spec|
   spec.source_files = 'ISGameCenter/*'
   spec.requires_arc = true
   spec.framework    = 'Foundation', 'SpriteKit'
+  spec.social_media_url = 'https://twitter.com/StudiosIguana'
 end
