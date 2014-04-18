@@ -9,9 +9,9 @@
 #import "ISMultiplayerNetworking.h"
 
 typedef NS_ENUM(int, ISMessageType) {
-    ISMessageTypeGamePrepare = 0,
-    ISMessageTypeGameBegin   = 1,
-    ISMessageTypeGameOver    = 2
+    ISMessageTypeGamePrepare,
+    ISMessageTypeGameBegin,
+    ISMessageTypeGameOver
 };
 
 typedef struct {
@@ -30,6 +30,7 @@ typedef struct {
     if (self = [super init]) {
         self.players = [NSMutableArray array];
     }
+
     return self;
 }
 
@@ -55,7 +56,7 @@ typedef struct {
                                                                   error:&error];
     if (!success) {
         NSLog(@"Error sending data: %@", error);
-        [self matchEnded];
+        [self matchEnded:error];
     }
 }
 
@@ -78,8 +79,8 @@ typedef struct {
 
 - (void)prepareGame:(NSString *)playerId {
     [self.players addObject:playerId];
-
     GKMatch *multiplayerMatch = [ISGameCenter sharedISGameCenter].multiplayerMatch;
+
     if ([self.players count] == [multiplayerMatch.playerIDs count]) {
         NSString *localPlayerId = [GKLocalPlayer localPlayer].playerID;
         [self.players addObject:localPlayerId];
@@ -99,14 +100,12 @@ typedef struct {
 #pragma mark ISGameCenterNetworkingDelegate
 
 - (void)matchStarted {
-    NSLog(@"Multiplayer match has started successfully");
     [self sendPrepareGame];
 }
 
-- (void)matchEnded {
-    NSLog(@"Multiplayer match has ended");
+- (void)matchEnded:(NSError *)error {
     [[ISGameCenter sharedISGameCenter].multiplayerMatch disconnect];
-    [self.delegate multiplayerMatchEnded];
+    [self.delegate multiplayerMatchEnded:nil];
 }
 
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerId {
@@ -123,7 +122,7 @@ typedef struct {
 
         case ISMessageTypeGameOver:
         default:
-            [self matchEnded];
+            [self matchEnded:nil];
             break;
     }
 }
