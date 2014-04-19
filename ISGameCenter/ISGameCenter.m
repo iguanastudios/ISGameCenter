@@ -131,14 +131,14 @@
 
 - (void)matchmakerViewControllerWasCancelled:(GKMatchmakerViewController *)viewController {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    [self.networkingDelegate matchEnded];
+    [self.networkingDelegate matchEnded:nil];
 }
 
 - (void)matchmakerViewController:(GKMatchmakerViewController *)viewController
                 didFailWithError:(NSError *)error {
     NSLog(@"Error creating a match: %@", error.localizedDescription);
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    [self.networkingDelegate matchEnded];
+    [self.networkingDelegate matchEnded:error];
 }
 
 - (void)matchmakerViewController:(GKMatchmakerViewController *)viewController
@@ -161,9 +161,9 @@
 }
 
 - (void)match:(GKMatch *)match didFailWithError:(NSError *)error {
-    if (self.multiplayerMatch == match) {
+    if (error) {
         self.multiplayerMatchStarted = NO;
-        [self.networkingDelegate matchEnded];
+        [self.networkingDelegate matchEnded:error];
     }
 }
 
@@ -183,7 +183,7 @@
         default:
             NSLog(@"Player disconnected");
             self.multiplayerMatchStarted = NO;
-            [self.networkingDelegate matchEnded];
+            [self.networkingDelegate matchEnded:nil];
             break;
     }
 }

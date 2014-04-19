@@ -16,9 +16,9 @@
 @end
 
 @protocol ISGameCenterNetworkingDelegate <NSObject>
-@optional
+@required
 - (void)matchStarted;
-- (void)matchEnded;
+- (void)matchEnded:(NSError *)error;
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerId;
 @end
 
