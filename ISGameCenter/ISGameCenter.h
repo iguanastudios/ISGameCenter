@@ -24,10 +24,10 @@
 
 @interface ISGameCenter : NSObject
 
-@property (nonatomic,assign) id<ISGameCenterDelegate> delegate;
-@property (nonatomic,assign) id<ISGameCenterNetworkingDelegate> networkingDelegate;
-@property (nonatomic,strong) GKMatch *multiplayerMatch;
-@property (nonatomic, readonly) UIViewController *authenticationViewController;
+@property (weak, nonatomic) id<ISGameCenterDelegate> delegate;
+@property (weak, nonatomic) id<ISGameCenterNetworkingDelegate> networkingDelegate;
+@property (strong, nonatomic) GKMatch *multiplayerMatch;
+@property (readonly, nonatomic) UIViewController *authenticationViewController;
 
 + (instancetype)sharedISGameCenter;
 - (void)authenticateLocalPlayer;

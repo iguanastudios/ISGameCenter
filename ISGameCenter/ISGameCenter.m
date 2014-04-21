@@ -10,7 +10,7 @@
 
 @interface ISGameCenter()<GKGameCenterControllerDelegate, GKMatchmakerViewControllerDelegate, GKMatchDelegate>
 @property (strong, nonatomic) UIViewController *presentingViewController;
-@property (assign, nonatomic) BOOL multiplayerMatchStarted;
+@property (nonatomic) BOOL multiplayerMatchStarted;
 @end
 
 @implementation ISGameCenter

@@ -19,7 +19,7 @@
 
 @interface ISMultiplayerNetworking : NSObject<ISGameCenterNetworkingDelegate>
 
-@property (nonatomic, assign) id<ISMultiplayerDelegate> delegate;
+@property (weak, nonatomic) id<ISMultiplayerDelegate> delegate;
 
 - (void)sendGameOverMessage;
 - (void)sendReliableData:(NSData *)data;
