@@ -105,7 +105,7 @@ typedef struct {
 
 - (void)matchEnded:(NSError *)error {
     [[ISGameCenter sharedISGameCenter].multiplayerMatch disconnect];
-    [self.delegate multiplayerMatchEnded:nil];
+    [self.delegate multiplayerMatchEnded:error];
 }
 
 - (void)match:(GKMatch *)match didReceiveData:(NSData *)data fromPlayer:(NSString *)playerId {
